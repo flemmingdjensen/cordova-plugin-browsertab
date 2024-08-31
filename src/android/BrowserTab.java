@@ -18,7 +18,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsIntent;
 import android.util.Log;
 import android.content.ActivityNotFoundException;
 
@@ -51,10 +51,10 @@ public class BrowserTab extends CordovaPlugin {
   private Color colorParser = new Color();
 
   /**
-   * The service we expect to find on a web browser that indicates it supports custom tabs.
+   * The service we expect to find on a web browser that indicates it supports
+   * custom tabs.
    */
-  private static final String ACTION_CUSTOM_TABS_CONNECTION =
-          "android.support.customtabs.action.CustomTabsService";
+  private static final String ACTION_CUSTOM_TABS_CONNECTION = "android.support.customtabs.action.CustomTabsService";
 
   private boolean mFindCalled = false;
   private String mCustomTabsBrowser;
@@ -110,7 +110,8 @@ public class BrowserTab extends CordovaPlugin {
     CustomTabsIntent.Builder customTabsIntentBuilder = new CustomTabsIntent.Builder();
 
     // Set tab color
-    String tabColor = cordova.getActivity().getString(cordova.getActivity().getResources().getIdentifier("CUSTOM_TAB_COLOR_RGB", "string", cordova.getActivity().getPackageName()));
+    String tabColor = cordova.getActivity().getString(cordova.getActivity().getResources()
+        .getIdentifier("CUSTOM_TAB_COLOR_RGB", "string", cordova.getActivity().getPackageName()));
     customTabsIntentBuilder.setToolbarColor(colorParser.parseColor(tabColor));
 
     // Create Intent
@@ -139,8 +140,7 @@ public class BrowserTab extends CordovaPlugin {
     Intent webIntent = new Intent(
         Intent.ACTION_VIEW,
         Uri.parse("http://www.example.com"));
-    List<ResolveInfo> resolvedActivityList =
-        pm.queryIntentActivities(webIntent, PackageManager.GET_RESOLVED_FILTER);
+    List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(webIntent, PackageManager.GET_RESOLVED_FILTER);
 
     for (ResolveInfo info : resolvedActivityList) {
       if (!isFullBrowser(info)) {
@@ -158,16 +158,17 @@ public class BrowserTab extends CordovaPlugin {
   }
 
   private boolean isFullBrowser(ResolveInfo resolveInfo) {
-    // The filter must match ACTION_VIEW, CATEGORY_BROWSEABLE, and at least one scheme,
+    // The filter must match ACTION_VIEW, CATEGORY_BROWSEABLE, and at least one
+    // scheme,
     if (!resolveInfo.filter.hasAction(Intent.ACTION_VIEW)
-            || !resolveInfo.filter.hasCategory(Intent.CATEGORY_BROWSABLE)
-            || resolveInfo.filter.schemesIterator() == null) {
-        return false;
+        || !resolveInfo.filter.hasCategory(Intent.CATEGORY_BROWSABLE)
+        || resolveInfo.filter.schemesIterator() == null) {
+      return false;
     }
 
     // The filter must not be restricted to any particular set of authorities
     if (resolveInfo.filter.authoritiesIterator() != null) {
-        return false;
+      return false;
     }
 
     // The filter must support both HTTP and HTTPS.
@@ -175,13 +176,13 @@ public class BrowserTab extends CordovaPlugin {
     boolean supportsHttps = false;
     Iterator<String> schemeIter = resolveInfo.filter.schemesIterator();
     while (schemeIter.hasNext()) {
-        String scheme = schemeIter.next();
-        supportsHttp |= "http".equals(scheme);
-        supportsHttps |= "https".equals(scheme);
+      String scheme = schemeIter.next();
+      supportsHttp |= "http".equals(scheme);
+      supportsHttps |= "https".equals(scheme);
 
-        if (supportsHttp && supportsHttps) {
-            return true;
-        }
+      if (supportsHttp && supportsHttps) {
+        return true;
+      }
     }
 
     // at least one of HTTP or HTTPS is not supported
