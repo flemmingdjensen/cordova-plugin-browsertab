@@ -1,9 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin
-    xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    id="cordova-plugin-browsertab"
-    version="0.2.2">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-browsertab" version="0.2.3">
     <name>cordova-plugin-browsertab</name>
     <description>
         This plugin provides an interface to in-app browser tabs that exist on
@@ -14,24 +11,22 @@
     <js-module name="BrowserTab" src="www/browsertab.js">
         <clobbers target="cordova.plugins.browsertab" />
     </js-module>
-  
+
     <preference name="CUSTOM_TAB_COLOR_RGB" default="#1a73e8" />
-  
+
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="BrowserTab">
-                <param name="android-package"
-                    value="com.google.cordova.plugin.browsertab.BrowserTab" />
+                <param name="android-package" value="com.google.cordova.plugin.browsertab.BrowserTab" />
             </feature>
         </config-file>
-        <source-file src="src/android/BrowserTab.java"
-            target-dir="src/com/google/cordova/plugin" />
+        <source-file src="src/android/BrowserTab.java" target-dir="src/com/google/cordova/plugin" />
         <framework src="com.android.support:customtabs:23.3.0"/>
-<!--         <framework src="src/android/BrowserTab.gradle" custom="true" type="gradleReference"/> -->
-  
+        <!--         <framework src="src/android/BrowserTab.gradle" custom="true" type="gradleReference"/> -->
+
         <source-file src="src/android/res/browsertab.xml" target-dir="res/values" />
         <config-file target="res/values/browsertab.xml" parent="/*">
-          <string name="CUSTOM_TAB_COLOR_RGB">$CUSTOM_TAB_COLOR_RGB</string>
+            <string name="CUSTOM_TAB_COLOR_RGB">$CUSTOM_TAB_COLOR_RGB</string>
         </config-file>
     </platform>
 
